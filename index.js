@@ -1,12 +1,8 @@
-const { post } = require("./app");
+const { post, rawListeners } = require("./app");
 const app = require("./app");
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
-// app.post('/views/api/shorturl/new', (req, res) => {
-
-
-// })
