@@ -1,0 +1,95 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 2.5em;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  font-family: Ubuntu, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+header {
+  min-height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  margin: 1rem;
+}
+#url_input {
+  background-color: bisque;
+  font-size: large;
+  padding: 1rem;
+  margin: 1rem;
+  outline: none;
+  border: 0.2rem solid rgb(177, 97, 0);
+  border-radius: 0.4rem;
+}
+
+#submit {
+  //   border: 0.002rem solid rgb(177, 97, 0);
+  //   border: 0.2rem solid rgb(177, 97, 0);
+  border: none;
+  //   sienna
+  background-color: sienna;
+  //   background-color: rgb(255, 173, 72);
+  font-size: large;
+  font-weight: bold;
+  font-family: inherit;
+  border-radius: 0.4rem;
+  padding: 1.2rem;
+  min-width: 15ch;
+  cursor: pointer;
+  //   @media screen and (-ms-high-contrast: active) {
+  //     border: 2px solid currentcolor;
+  //   }
+}
+
+#shortener-section {
+  background-color: burlywood;
+  padding: 5rem;
+}
+
+footer {
+  background-color: sienna;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+#contact {
+  padding: 1rem;
+  font-size: 1.5rem;
+}
+
+a {
+  text-decoration: none;
+  margin: 1rem 1rem 1rem 1rem;
+}
+#github-logo:hover {
+  fill: burlywood;
+}
+#about {
+  padding: 3rem 0;
+  margin-bottom: 10rem;
+}
+
+@media (max-width: 800px) {
+  header {
+    min-height: none;
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media (max-width: 600px) {
+  header {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
