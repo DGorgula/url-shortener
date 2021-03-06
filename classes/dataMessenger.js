@@ -111,7 +111,7 @@ class DataMessenger {
                         return response.json()
                             .then(data => {
                                 console.log("counter updated");
-                                return data
+                                return newUrl;
                             })
                             .catch(updateError => { throw { message: "something went wrong with the update:", error: updateError } })
                     });

@@ -4,6 +4,7 @@
   "description": "API project for freeCodeCamp",
   "main": "index.js",
   "scripts": {
+    "test": "jest --verbose",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
@@ -17,6 +18,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.4",
+    "supertest": "^6.1.3"
   }
 }

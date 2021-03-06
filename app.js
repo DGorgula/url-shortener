@@ -5,12 +5,13 @@ const formBodyParse = bodyParser.urlencoded({ extended: false });
 const { DataMessenger } = require('./classes/dataMessenger.js');
 const cors = require("cors");
 const app = express();
+
 // const router = app.router();
 // app.use('/api/shorturl/');
 
 app.use('/', cors());
 
-app.use("/public", express.static(`./public`));
+// app.use('/public', express.static(`./public`));
 
 // get response for localhost:3000/
 app.get("/", (req, res) => {
@@ -36,9 +37,11 @@ app.post('/api/shorturl/new', formBodyParse, (req, res) => {
   const messenger = new DataMessenger(data);
   const result = messenger.send(data).then(result => {
     console.log("post result: ", result);
+    res.status(200).send(result);
   }
   )
-  return res.status(200).send(`The Url: ${data.url} arrived successfully!`);
+  // return res.sendFile(__dirname + "/views/index.html");
+  return
 });
 
 
