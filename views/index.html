@@ -4,7 +4,6 @@
   <head>
     <title>My Shortener</title>
     <link rel="icon" type="image/png" href="../public/favicon.ico" />
-    <script defer src="./main.js"></script>
     <link href="./style.css" rel="stylesheet" type="text/css"/>
   </head>
 
@@ -15,10 +14,9 @@
     <main>
       <section>
         <form id="shortener-section" action="http://localhost:3000/api/shorturl/new" method= "post" >
-          <!-- <legend>Insert your link and enjoy!</legend> -->
           <p>Which link this time?</p>
           <label for="url_input"></label>
-          <input id="url_input" type="text" name="url" placeholder="https://www.freecodecamp.org/" />
+          <input id="url_input" type="url" required name="url" placeholder="https://www.fairphone.com/en/" />
           <input type="submit" id="submit" value="Shorten Now"></button>
         </form>
       </section>
