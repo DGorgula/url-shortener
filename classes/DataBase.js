@@ -33,60 +33,65 @@ class DataBase {
 
 
 
-    // isThere(shortUrl) {
-    //     return this.data
-    //         .then((data) => {
-    //             console.log(data);
-    //             for (const urlObject of data.urls) {
-    //                 if (shortUrl === urlObject.shortRoute) {
-    //                     urlObject.counter++;
-    //                     this.data = data.urls;
-    //                     this.updateCounter(this.data).catch(() => {
-    //                         console.log("could not update the url object");
-    //                     });
-    //                     return urlObject.url;
-    //                 }
-    //             }
-    //             return new Error(["There is no such shortUrl", data.urls, shortUrl]);
-    //         }).catch(error => { console.log("error in isThere method, the error was: ", error); });
-    //     // const options = {
-    //     //     headers: {
-    //     //         'X-Master-Key': API_KEY,
-    //     //     }
-    //     // }
-    //     // return fetch(DB + '/latest', options)
-    //     //     .then(response => response.json()
-    //     //         .then(data => {
-    //     //             if (shortUrl in data.urls) {
-    //     //                 const url = data.urls.shortUrl;
-    //     //                 return shortUrl.record;
-    //     //             }
+    isThere(shortUrl, redirect) {
+        return this.getAllData()
+            .then((data) => {
+                console.log(data);
+                for (const urlObject of data) {
+                    if (shortUrl === urlObject.shortRoute) {
+                        if (redirect) {
+                            urlObject.redirectCount++;
+                            this.data = data;
+                            this.updateCounter(this.data).catch(() => {
+                                console.log("could not update the url object");
+                            });
+                            return urlObject.url;
+                        }
+                        else {
+                            return urlObject;
+                        }
+                    }
+                }
+                return new Error(["There is no such shortUrl", data.urls, shortUrl]);
+            }).catch(error => { console.log("error in isThere method, the error was: ", error); });
+        // const options = {
+        //     headers: {
+        //         'X-Master-Key': API_KEY,
+        //     }
+        // }
+        // return fetch(DB + '/latest', options)
+        //     .then(response => response.json()
+        //         .then(data => {
+        //             if (shortUrl in data.urls) {
+        //                 const url = data.urls.shortUrl;
+        //                 return shortUrl.record;
+        //             }
 
-    //     // return false;
-    //     // }))
-    //     // .catch(error => {
-    //     //     console.log("something went wrong with isThere function", error);
-    //     // });
-    // }
+        // return false;
+        // }))
+        // .catch(error => {
+        //     console.log("something went wrong with isThere function", error);
+        // });
+    }
 
-    // updateCounter(data) {
-    //     const options = {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'X-Master-Key': API_KEY,
-    //             'X-Bin-Versioning': 'false'
-    //         },
-    //         body: JSON.stringify(data)
-    //     }
-    //     console.log("in the counter, the data is: ", this.data);
-    //     return fetch(DB, options)
-    //         .then(response => {
-    //             return response.json()
-    //                 .then(data => { return data })
-    //                 .catch(updateError => { throw { message: "something went wrong with the counter update:", error: updateError } });
-    //         });
-    // }
+    updateCounter(data) {
+        const options = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': API_KEY,
+                'X-Bin-Versioning': 'false'
+            },
+            body: JSON.stringify(data)
+        }
+        console.log("in the counter, the data is: ", this.data);
+        return fetch(DB, options)
+            .then(response => {
+                return response.json()
+                    .then(data => { return data })
+                    .catch(updateError => { throw { message: "something went wrong with the counter update:", error: updateError } });
+            });
+    }
 
     send(data) {
 

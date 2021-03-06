@@ -21,21 +21,33 @@ app.get("/", (req, res) => {
 app.get("/:shortUrl", (req, res) => {
   const { shortUrl } = req.params;
   const messenger = new DataBase(shortUrl);
-  messenger.isThere(shortUrl).then(response => {
+  messenger.isThere(shortUrl, 'redirect').then(response => {
     return res.redirect(303, response);
 
   }).catch(error => {
     console.log("There was an error in get '/:shortUrl' endpoint, the error was: ", error);
   })
+});
 
 
+app.get('/api/statistic/:shorturl-id', (req, res) => {
+  console.log("jbksda");
+  const data = req.params.shorturl;
+  const messenger = new DataBase(data);
+  messenger.isThere(data).then(result => {
+    console.log("post result: ", result);
+    res.status(200).send(result);
+  }
+  )
+  // return res.sendFile(__dirname + "/views/index.html");
+  return
 });
 
 // post response for localhost:3000/api/shoryurl/new
 app.post('/api/shorturl/new', formBodyParse, (req, res) => {
   const data = req.body;
   const messenger = new DataBase(data);
-  const result = messenger.send(data).then(result => {
+  messenger.send(data).then(result => {
     console.log("post result: ", result);
     res.status(200).send(result);
   }
