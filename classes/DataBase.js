@@ -7,7 +7,7 @@ const { urlClass } = require('./urlClass');
 const API_KEY = '$2b$10$zZDdF7tEnFjVuWTOTyEIhuxHrQKMtNfrGQojBkNT5Hl1PBUn/LQ4K';
 const DB = 'https://api.jsonbin.io/v3/b/6042537a9342196a6a6e2232';
 
-class DataMessenger {
+class DataBase {
     constructor(data) {
         this.data = data;
     }
@@ -111,7 +111,7 @@ class DataMessenger {
                         return response.json()
                             .then(data => {
                                 console.log("counter updated");
-                                return newUrl;
+                                return { originalUrl: newUrl.originalUrl, "shorturl-id": newUrl["shorturl-id"] };
                             })
                             .catch(updateError => { throw { message: "something went wrong with the update:", error: updateError } })
                     });
@@ -123,4 +123,4 @@ class DataMessenger {
     }
 }
 
-module.exports = { DataMessenger };
+module.exports = { DataBase };

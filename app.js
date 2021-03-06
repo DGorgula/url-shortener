@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require('body-parser');
 const formBodyParse = bodyParser.urlencoded({ extended: false });
-const { DataMessenger } = require('./classes/dataMessenger.js');
+const { DataBase } = require('./classes/DataBase.js');
 const cors = require("cors");
 const app = express();
 
@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 
 app.get("/:shortUrl", (req, res) => {
   const { shortUrl } = req.params;
-  const messenger = new DataMessenger(shortUrl);
+  const messenger = new DataBase(shortUrl);
   messenger.isThere(shortUrl).then(response => {
     return res.redirect(303, response);
 
@@ -34,7 +34,7 @@ app.get("/:shortUrl", (req, res) => {
 // post response for localhost:3000/api/shoryurl/new
 app.post('/api/shorturl/new', formBodyParse, (req, res) => {
   const data = req.body;
-  const messenger = new DataMessenger(data);
+  const messenger = new DataBase(data);
   const result = messenger.send(data).then(result => {
     console.log("post result: ", result);
     res.status(200).send(result);
