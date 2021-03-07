@@ -4,7 +4,7 @@ url shortener, to short urls.
 
 My Shortener on repl.it:
 
-[`My Repl.it Shortener`](https://repl.it/)
+[`My Repl.it Shortener`](https://repl.it/join/orvrltzj-dgorgula)
 
 ## post route:
 
