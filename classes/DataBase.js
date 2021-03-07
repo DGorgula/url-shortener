@@ -4,8 +4,11 @@ const { urlClass } = require('./urlClass');
 
 
 
-// transfer to .env file
-const API_KEY = process.env.API_KEY;
+// pull API_KEY from .env file
+// const API_KEY = process.env.API_KEY;
+const API_KEY = '$2b$10$zZDdF7tEnFjVuWTOTyEIhuxHrQKMtNfrGQojBkNT5Hl1PBUn/LQ4K';     // .env in .gitignore so I added here the public key.
+
+
 const DB = process.env.NODE_ENV === 'test' ? 'https://api.jsonbin.io/v3/b/6044209e683e7e079c468d3b' : 'https://api.jsonbin.io/v3/b/6042537a9342196a6a6e2232';
 
 class DataBase {
@@ -45,7 +48,6 @@ class DataBase {
                             urlObject.redirectCount++;
                             this.data = data;
                             this.updateCounter(this.data).catch(() => {
-                                // res.status(500);
                                 throw new Error("could not update the url object");
                             });
                             return urlObject.originalUrl;
@@ -55,29 +57,10 @@ class DataBase {
                         }
                     }
                 }
-                // res.status(404);
                 throw new Error("There is no such shortened url");
             }).catch(error => {
                 throw new Error(error.message);
             });
-        // const options = {
-        //     headers: {
-        //         'X-Master-Key': API_KEY,
-        //     }
-        // }
-        // return fetch(DB + '/latest', options)
-        //     .then(response => response.json()
-        //         .then(data => {
-        //             if (shortUrl in data.urls) {
-        //                 const url = data.urls.shortUrl;
-        //                 return shortUrl.record;
-        //             }
-
-        // return false;
-        // }))
-        // .catch(error => {
-        //     console.log("something went wrong with isThere function", error);
-        // });
     }
 
     updateCounter(data) {

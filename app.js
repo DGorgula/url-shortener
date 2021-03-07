@@ -6,15 +6,16 @@ const { DataBase } = require('./classes/DataBase.js');
 const cors = require("cors");
 const app = express();
 
-app.use('/', cors());
-
+// middleWares
+app.use('/', cors());   // opened to all to enable your checking methods work properly.
 app.use('/public', express.static(`./public`));
 
-// get response for localhost:3000/
+// enters the main site.
 app.get("/", (req, res) => {
   return res.sendFile(__dirname + "/views/index.html");
 });
 
+// redirects to url registered for shortened id given.
 app.get("/:shortUrl", (req, res) => {
   const { shortUrl } = req.params;
   const messenger = new DataBase(shortUrl);
@@ -25,7 +26,7 @@ app.get("/:shortUrl", (req, res) => {
   });
 });
 
-
+// get all statistics of specific shortened url
 app.get('/api/statistic/:shorturl-id', (req, res) => {
   const data = req.params.shorturl;
   const messenger = new DataBase(data);
@@ -47,14 +48,7 @@ app.post('/api/shorturl/new', formBodyParse, (req, res) => {
   }).catch((error) => {
     return res.status(200).send(error.message);
   });
-
-  // return res.sendFile(__dirname + "/views/index.html");
   return
 });
-
-
-
-
-
 
 module.exports = app;
