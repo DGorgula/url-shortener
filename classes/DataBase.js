@@ -1,11 +1,12 @@
+const { response } = require('express');
 const fetch = require('node-fetch');
 const { urlClass } = require('./urlClass');
 
 
 
 // transfer to .env file
-const API_KEY = '$2b$10$zZDdF7tEnFjVuWTOTyEIhuxHrQKMtNfrGQojBkNT5Hl1PBUn/LQ4K';
-const DB = 'https://api.jsonbin.io/v3/b/6042537a9342196a6a6e2232';
+const API_KEY = process.env.API_KEY;
+const DB = process.env.NODE_ENV === 'test' ? 'https://api.jsonbin.io/v3/b/6044209e683e7e079c468d3b' : 'https://api.jsonbin.io/v3/b/6042537a9342196a6a6e2232';
 
 class DataBase {
     constructor(data) {
@@ -23,7 +24,6 @@ class DataBase {
                 return response.json()
                     .then((allData) => {
                         this.data = allData.record;
-                        console.log(this.data);
                         return this.data;
                     }).catch(error => { error => console.log("there was an error in getAllData function. The error was: ", error); })
             }).catch(error => {
@@ -36,24 +36,30 @@ class DataBase {
     isThere(shortUrl, redirect) {
         return this.getAllData()
             .then((data) => {
-                console.log(data);
+                if (!/(^[A-z0-9]{7}$)/.test(shortUrl)) {
+                    throw new Error("Invalid shortened url");
+                }
                 for (const urlObject of data) {
-                    if (shortUrl === urlObject.shortRoute) {
+                    if (shortUrl === urlObject["shorturl-id"]) {
                         if (redirect) {
                             urlObject.redirectCount++;
                             this.data = data;
                             this.updateCounter(this.data).catch(() => {
-                                console.log("could not update the url object");
+                                // res.status(500);
+                                throw new Error("could not update the url object");
                             });
-                            return urlObject.url;
+                            return urlObject.originalUrl;
                         }
                         else {
                             return urlObject;
                         }
                     }
                 }
-                return new Error(["There is no such shortUrl", data.urls, shortUrl]);
-            }).catch(error => { console.log("error in isThere method, the error was: ", error); });
+                // res.status(404);
+                throw new Error("There is no such shortened url");
+            }).catch(error => {
+                throw new Error(error.message);
+            });
         // const options = {
         //     headers: {
         //         'X-Master-Key': API_KEY,
@@ -84,7 +90,6 @@ class DataBase {
             },
             body: JSON.stringify(data)
         }
-        console.log("in the counter, the data is: ", this.data);
         return fetch(DB, options)
             .then(response => {
                 return response.json()
@@ -94,36 +99,46 @@ class DataBase {
     }
 
     send(data) {
-
+        const httpRegex = /^(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,6}?(\/([\w\/_\.]*(\?\S+)?)?)?/;
+        if (!httpRegex.test(data.url)) {
+            return new Promise((resolve, reject) => { reject(new Error("Invalid url")) });
+        }
         // get the last data
-        return this.getAllData()
-            .then(allData => {
-                // console.log(urlClass);
-                const newUrl = new urlClass(data.url);
-                // console.log(newUrl);
-                allData.push(newUrl);
-                const options = {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': API_KEY,
-                        'X-Bin-Versioning': 'false'
-                    },
-                    body: JSON.stringify(allData)
-                }
-                return fetch(DB, options)
-                    .then(response => {
-                        return response.json()
-                            .then(data => {
-                                console.log("counter updated");
-                                return { originalUrl: newUrl.originalUrl, "shorturl-id": newUrl["shorturl-id"] };
-                            })
-                            .catch(updateError => { throw { message: "something went wrong with the update:", error: updateError } })
-                    });
-            })
-            .catch(sendMethodError => {
-                console.log({ message: "something went wrong with the send method:", error: sendMethodError });
+        return fetch(data.url).then(() => {
+            return this.getAllData()
+                .then(allData => {
+                    const newUrl = new urlClass(data.url);
+                    allData.push(newUrl);
+                    const options = {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Master-Key': API_KEY,
+                            'X-Bin-Versioning': 'false'
+                        },
+                        body: JSON.stringify(allData)
+                    }
+                    return fetch(DB, options)
+                        .then(response => {
+                            return response.json()
+                                .then(data => {
+                                    return { originalUrl: newUrl.originalUrl, "shorturl-id": newUrl["shorturl-id"] };
+                                })
+                                .catch(updateError => {
+                                    throw updateError.message
+                                });
+                        });
+                })
+                .catch(sendMethodError => {
+                    throw new Error(sendMethodError.message);
 
+                });
+        })
+            .catch((error) => {
+                if (error.code === 'ENOTFOUND') {
+                    throw new Error("Invalid hostname");
+                }
+                throw new Error(error.message);
             });
     }
 }

@@ -1,44 +1,114 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  color: #222;
-  background-color: #fff;
+  font-size: 2.5em;
   text-align: center;
-  line-height: 1.4em;
-}
-
-main {
   padding: 0;
-  margin-top: 40px;
+  margin: 0;
+  font-family: Ubuntu, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-h3 {
-  margin-top: 30px;
+header {
+  min-height: 40vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.user-stories li {
-  margin-bottom: 1em;
+p {
+  margin: 1rem;
+}
+
+#url_input {
+  background-color: bisque;
+  font-size: large;
+  padding: 1rem;
+  margin: 1rem;
+  outline: none;
+  border: 0.2rem solid #b16100;
+  border-radius: 0.4rem;
+}
+
+#submit {
+  border: none;
+  background-color: sienna;
+  font-size: large;
+  font-weight: bold;
+  font-family: inherit;
+  border-radius: 0.4rem;
+  padding: 1.2rem;
+  min-width: 15ch;
+  cursor: pointer;
+}
+
+#shortener-section {
+  background-color: burlywood;
+  padding: 5rem;
+}
+
+footer {
+  background-color: sienna;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+#contact {
+  padding: 1rem;
+  font-size: 1.5rem;
 }
 
 a {
-  color: #2574a9;
+  text-decoration: none;
+  margin: 1rem 1rem 1rem 1rem;
 }
 
-form {
-  margin: 10px auto;
-  padding: 20px;
-  max-width: 600px;
+#github-logo:hover {
+  fill: burlywood;
 }
 
-label {
-  margin-right: 10px;
+#about {
+  padding: 3rem 0;
+  margin-bottom: 10rem;
 }
 
-input {
-  padding: 5px;
+@media (max-width: 800px) {
+  header {
+    min-height: none;
+    height: 15vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
 }
 
-input[type="text"] {
-  width: 220px;
-  text-align: center;
+@media (max-width: 600px) {
+  header {
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
 }
+/*# sourceMappingURL=style.css.map */
